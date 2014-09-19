@@ -69,7 +69,7 @@ public class HttpBasicServer extends HttpServer {
                     request.header("X-Client-IP"), request.header("Client-IP"));
 
         // allow health check even without authorization
-        if (healthCheck(request)) {
+        if (healthCheck(request) && !authBasic(request)) {
             channel.sendResponse(new BytesRestResponse(OK, "{\"OK\":{}}"));
         } else if (allowOptionsForCORS(request) || authBasic(request) || isInIPWhitelist(request)) {
             super.internalDispatchRequest(request, channel);
